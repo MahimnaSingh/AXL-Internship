@@ -1,0 +1,33 @@
+{
+  "name": "axl-backend",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "DB_HOST=localhost DB_USER=root DB_PASSWORD=qwertyuiop DB_NAME=MST PORT=3000 node server.js",
+    "dev": "DB_HOST=localhost DB_USER=root DB_PASSWORD=qwertyuiop DB_NAME=MST PORT=3000 nodemon server.js"
+  },
+  "keywords": [
+    "irctc",
+    "feedback",
+    "complaints",
+    "railway",
+    "api",
+    "express",
+    "mysql"
+  ],
+  "author": "IRCTC",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mysql2": "^3.6.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  }
+}

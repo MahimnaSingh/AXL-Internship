@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback & Complaints</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #213d77;
+            --primary-dark: #162a52;
+            --accent: #f68b1f;
+            --light-bg: #f3f5fb;
+            --border: #d0d4e4;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--light-bg);
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .top-bar {
+            height: 32px;
+            background: var(--primary-dark);
+        }
+
+        .header {
+            background: var(--white);
+            border-bottom: 3px solid var(--accent);
+            height: 70px;
+            padding: 0 8%;
+            display: flex;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-placeholder {
+            width: 70px;
+            height: 70px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 0px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .company-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .page-wrapper {
+            padding: 30px 8%;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 26px 22px;
+            border: 1px solid #e1e4f2;
+            min-height: 300px;
+        }
+
+        .form-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--accent);
+            text-transform: capitalize;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin: 16px 0 10px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .form-grid,
+        .form-grid-2col,
+        .form-grid-3col {
+            display: grid;
+            gap: 16px 20px;
+            margin-bottom: 10px;
+        }
+        .form-grid { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+        .form-grid-2col { grid-template-columns: 1fr 1fr; }
+        .form-grid-3col { grid-template-columns: 1fr 1fr 1fr; }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            font-family: 'Montserrat', sans-serif;
+            outline: none;
+        }
+
+        .textarea-wrapper {
+            position: relative;
+        }
+
+        .form-group textarea {
+            padding: 8px 10px 20px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            font-family: 'Montserrat', sans-serif;
+            outline: none;
+            width: 100%;
+        }
+
+        .textarea-expandable {
+            font-size: 0.85rem;
+            min-height: 34px;
+            resize: none;
+            overflow-y: hidden;
+            height: 34px;
+        }
+
+        .char-counter {
+            position: absolute;
+            bottom: 6px;
+            right: 8px;
+            font-size: 0.65rem;
+            color: #999;
+            pointer-events: none;
+        }
+
+        .char-counter.warning {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        .form-actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 8px 22px;
+            border-radius: 20px;
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            transition: background 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: #e74c3c;
+            color: var(--white);
+            transition: background 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #c0392b;
+        }
+
+        .footer {
+            background: var(--primary-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 16px 0;
+            font-size: 14px;
+            margin-top: auto;
+        }
+
+        .success-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background-color: #28a745;
+            color: var(--white);
+            padding: 1.5rem 2.5rem;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .success-message.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Autocomplete Styles */
+        .autocomplete-wrapper {
+            position: relative;
+        }
+
+        .autocomplete-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid var(--primary);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .autocomplete-dropdown.show {
+            display: block;
+        }
+
+        .autocomplete-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s ease;
+        }
+
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+
+        .autocomplete-item:hover,
+        .autocomplete-item.active {
+            background-color: var(--light-bg);
+        }
+
+        .autocomplete-item .train-number {
+            font-weight: 600;
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .autocomplete-item .train-name {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .autocomplete-no-results {
+            padding: 12px 15px;
+            color: #999;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .form-group input[readonly] {
+            background-color: #f8f9fa;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-bar"></div>
+
+    <header class="header">
+        <div class="brand">
+            <div class="logo-placeholder">
+                <img src="../logo.png" alt="Logo">
+            </div>
+            <div class="company-name">Indian Railway Catering and Tourism Corporation</div>
+        </div>
+    </header>
+
+    <main class="page-wrapper">
+        <section class="card">
+            <div class="form-title">Feedback & Complaints</div>
+
+            <form id="feedbackForm">
+                <div class="section-title">Basic Information</div>
+                <div class="form-grid-3col">
+                    <div class="form-group">
+                        <label for="zone">Zone</label>
+                        <select id="zone" name="zone" required>
+                            <option value="">Select Zone</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="rlyZone">Railway Zone</label>
+                        <select id="rlyZone" name="rlyZone" required disabled>
+                            <option value="">Select Railway Zone</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="depotStation">Depot Station</label>
+                        <select id="depotStation" name="depotStation" required disabled>
+                            <option value="">Select Depot Station</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="trainType">Train Type</label>
+                        <select id="trainType" name="trainType" required>
+                            <option value="">Select Train Type</option>
+                        </select>
+                    </div>
+                    <div class="form-group autocomplete-wrapper">
+                        <label for="trainNumber">Train Number</label>
+                        <input id="trainNumber" name="trainNumber" type="text" placeholder="Type to search train..." required autocomplete="off">
+                        <div id="trainAutocomplete" class="autocomplete-dropdown"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="trainName">Train Name</label>
+                        <input id="trainName" name="trainName" type="text" placeholder="Auto-filled from train number" readonly required>
+                    </div>
+                </div>
+
+                <div class="section-title">Complaint Details</div>
+                <div class="form-grid-3col">
+                    <div class="form-group">
+                        <label for="complaintDate">Complaint Date</label>
+                        <input id="complaintDate" name="complaintDate" type="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sourceOfComplaint">Source of Complaint</label>
+                        <select id="sourceOfComplaint" name="sourceOfComplaint" required>
+                            <option value="">Select source</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="railmadadIdGroup" style="display:none;">
+                        <label for="railmadadId">RailMadad ID</label>
+                        <input id="railmadadId" name="railmadadId" type="text" placeholder="Enter RailMadad ID">
+                    </div>
+                    <div class="form-group" id="refNoGroup" style="display:none;">
+                        <label for="refNo">Reference Number</label>
+                        <input id="refNo" name="refNo" type="text" placeholder="Enter Reference Number">
+                    </div>
+                    <div class="form-group">
+                        <label for="modeOfComplaint">Mode of Complaint</label>
+                        <select id="modeOfComplaint" name="modeOfComplaint" required>
+                            <option value="">Select mode</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="complaintCategory">Complaint Category</label>
+                        <select id="complaintCategory" name="complaintCategory" required>
+                            <option value="">Select category</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="complaintSubCategory">Complaint Sub-Category</label>
+                        <select id="complaintSubCategory" name="complaintSubCategory" required disabled>
+                            <option value="">Select sub-category</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="typeOfUnit">Type of Unit</label>
+                        <select id="typeOfUnit" name="typeOfUnit" required>
+                            <option value="">Select unit type</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="breach">Breach Type</label>
+                        <select id="breach" name="breach" required>
+                            <option value="">Select breach type</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="section-title">Staff Details</div>
+                <div class="form-grid-3col">
+                    <div class="form-group">
+                        <label for="owningOfficial">Owning Official</label>
+                        <input id="owningOfficial" name="owningOfficial" type="text" placeholder="Enter Owning official">
+                    </div>
+                </div>
+                <div class="form-grid-3col">
+                    <div class="form-group">
+                        <label for="licensee">Licensee Name</label>
+                        <input id="licensee" name="licensee" type="text" placeholder="Enter licensee name">
+                    </div>
+                    <div class="form-group">
+                        <label for="licenseeContact">Licensee Contact</label>
+                        <input id="licenseeContact" name="licenseeContact" type="tel" pattern="[0-9]{10}" maxlength="10" placeholder="Enter 10-digit contact number" title="Please enter a valid 10-digit mobile number">
+                    </div>
+                    <div class="form-group">
+                        <label for="licenseeDesignation">Licensee Designation</label>
+                        <input id="licenseeDesignation" name="licenseeDesignation" type="text" placeholder="Enter licensee designation">
+                    </div>
+                </div>
+                <div class="form-grid-3col">
+                    <div class="form-group">
+                        <label for="obcsName">OBCS Name</label>
+                        <input id="obcsName" name="obcsName" type="text" placeholder="Enter OBCS name">
+                    </div>
+                    <div class="form-group">
+                        <label for="obcsContact">OBCS Contact</label>
+                        <input id="obcsContact" name="obcsContact" type="tel" pattern="[0-9]{10}" maxlength="10" placeholder="Enter 10-digit contact number" title="Please enter a valid 10-digit mobile number">
+                    </div>
+                    <div class="form-group">
+                        <label for="obcsDesignation">OBCS Designation</label>
+                        <input id="obcsDesignation" name="obcsDesignation" type="text" placeholder="Enter OBCS designation">
+                    </div>
+                </div>
+                <div class="form-grid-3col">
+                    <div class="form-group">
+                        <label for="kitchenDetails">Kitchen Unit Details</label>
+                        <input id="kitchenDetails" name="kitchenDetails" type="text" placeholder="Enter kitchen unit details">
+                    </div>
+                </div>
+
+                <div class="section-title">Customer Details</div>
+                <div class="form-grid-3col">
+                    <div class="form-group">
+                        <label for="pnr">PNR</label>
+                        <input id="pnr" name="pnr" type="text" maxlength="20" pattern="[0-9]{10}" placeholder="Enter 10-digit PNR" title="PNR must be 10 digits">
+                    </div>
+                    <div class="form-group">
+                        <label for="passengerName">Passenger Name</label>
+                        <input id="passengerName" name="passengerName" type="text" placeholder="Enter passenger name">
+                    </div>
+                    <div class="form-group">
+                        <label for="passengerContact">Passenger Contact</label>
+                        <input id="passengerContact" name="passengerContact" type="tel" pattern="[0-9]{10}" maxlength="10" placeholder="Enter 10-digit contact number" title="Please enter a valid 10-digit mobile number">
+                    </div>
+                </div>
+                <div class="form-grid-3col">
+                    <div class="form-group">
+                        <label for="incidentDate">Incident Date</label>
+                        <input id="incidentDate" name="incidentDate" type="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registrationDate">Registration Date</label>
+                        <input id="registrationDate" name="registrationDate" type="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="complaintDescription">Complaint Description</label>
+                        <div class="textarea-wrapper">
+                            <textarea id="complaintDescription" name="complaintDescription" class="textarea-expandable" placeholder="Enter complaint description" maxlength="1000" required></textarea>
+                            <div id="complaintDescription-counter" class="char-counter">0/1000</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-title">Other Details</div>
+                <div class="form-grid-3col">
+                    <div class="form-group">
+                        <label for="status">Status of Complaint</label>
+                        <select id="status" name="status">
+                            <option value="">Select status</option>
+                            <option value="resolved">Resolved</option>
+                            <option value="pending">Pending</option>
+                            <option value="closed">Closed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-grid-3col">
+                    <div class="form-group">
+                        <label for="obcsRemarks">OBCS Remarks</label>
+                        <div class="textarea-wrapper">
+                            <textarea id="obcsRemarks" name="obcsRemarks" class="textarea-expandable" placeholder="Enter OBCS remarks" maxlength="1000"></textarea>
+                            <div id="obcsRemarks-counter" class="char-counter">0/1000</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="zoneATR">Zone ATR</label>
+                        <div class="textarea-wrapper">
+                            <textarea id="zoneATR" name="zoneATR" class="textarea-expandable" placeholder="Enter zone ATR" maxlength="1000"></textarea>
+                            <div id="zoneATR-counter" class="char-counter">0/1000</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="finalATR">Final ATR (Action Taken Report)</label>
+                        <div class="textarea-wrapper">
+                            <textarea id="finalATR" name="finalATR" class="textarea-expandable" placeholder="Enter final action taken details" maxlength="1000"></textarea>
+                            <div id="finalATR-counter" class="char-counter">0/1000</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-grid-3col">
+                    <div class="form-group">
+                        <label for="finalRemarks">Final Remarks</label>
+                        <div class="textarea-wrapper">
+                            <textarea id="finalRemarks" name="finalRemarks" class="textarea-expandable" placeholder="Enter final remarks" maxlength="1000"></textarea>
+                            <div id="finalRemarks-counter" class="char-counter">0/1000</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fineImposed">Fine Imposed</label>
+                        <input id="fineImposed" name="fineImposed" type="number" min="0" step="0.01" placeholder="Enter fine amount">
+                    </div>
+                    <div class="form-group">
+                        <label for="rating">Rating</label>
+                        <select id="rating" name="rating">
+                            <option value="">Select rating</option>
+                            <option value="excellent">Excellent</option>
+                            <option value="satisfactory">Satisfactory</option>
+                            <option value="overall">Overall Satisfaction</option>
+                            <option value="unsatisfactory">Unsatisfactory</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="reset" class="btn btn-secondary">Reset</button>
+                </div>
+            </form> 
+        </section>
+    </main>
+
+    <footer class="footer">
+        IRCTC Pvt. Ltd. © 2025
+    </footer>
+
+    <div class="success-message" id="successMessage">
+        ✓ Submitted
+    </div>
+
+    <script>
+        // API Configuration - use relative URL since frontend and backend are on same server
+        const API_BASE_URL = '/api';
+
+        // State management
+        let currentTrainFocus = -1;
+        let trainSearchTimeout;
+        let complaintSubCategories = [];
+
+        // Utility function to fetch data from API
+        async function fetchData(endpoint) {
+            try {
+                console.log(`Fetching: ${API_BASE_URL}${endpoint}`);
+                const response = await fetch(`${API_BASE_URL}${endpoint}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const result = await response.json();
+                console.log(`Success: ${endpoint}`, result);
+                // Backend returns {success: true, data: [...]} so we extract the data array
+                return result.data || result;
+            } catch (error) {
+                console.error(`Error fetching ${endpoint}:`, error);
+                throw error; // Re-throw to handle in calling function
+            }
+        }
+
+        // Load dropdown data from backend
+        async function loadZones() {
+            try {
+                const zones = await fetchData('/master/zones');
+                const zoneSelect = document.getElementById('zone');
+                zones.forEach(zone => {
+                    const option = document.createElement('option');
+                    option.value = zone.zone_id;
+                    option.textContent = zone.zone_name;
+                    option.dataset.zoneCode = zone.zone_code; // Add data attribute
+                    zoneSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Failed to load zones:', error);
+                throw error;
+            }
+        }
+
+        async function loadRlyZones(zoneId) {
+            const rlyZoneSelect = document.getElementById('rlyZone');
+            const depotStationSelect = document.getElementById('depotStation');
+            
+            rlyZoneSelect.innerHTML = '<option value="">Select Railway Zone</option>';
+            depotStationSelect.innerHTML = '<option value="">Select Depot Station</option>';
+            depotStationSelect.disabled = true;
+
+            if (!zoneId) {
+                rlyZoneSelect.disabled = true;
+                return;
+            }
+
+            try {
+                const rlyZones = await fetchData(`/master/rly-zones?zone_id=${zoneId}`);
+                rlyZones.forEach(rlyZone => {
+                    const option = document.createElement('option');
+                    option.value = rlyZone.rly_zone_id;
+                    option.textContent = rlyZone.rly_zone_code;
+                    rlyZoneSelect.appendChild(option);
+                });
+                rlyZoneSelect.disabled = false;
+            } catch (error) {
+                console.error('Failed to load railway zones:', error);
+                alert('Failed to load railway zones');
+            }
+        }
+
+        async function loadDepotStations(rlyZoneId) {
+            const depotStationSelect = document.getElementById('depotStation');
+            depotStationSelect.innerHTML = '<option value="">Select Depot Station</option>';
+
+            if (!rlyZoneId) {
+                depotStationSelect.disabled = true;
+                return;
+            }
+
+            try {
+                const depotStations = await fetchData(`/master/depot-stations?rly_zone_id=${rlyZoneId}`);
+                depotStations.forEach(station => {
+                    const option = document.createElement('option');
+                    option.value = station.depot_id;  // FIX: Changed from depot_station_id to depot_id
+                    option.textContent = station.station_code;
+                    depotStationSelect.appendChild(option);
+                });
+                depotStationSelect.disabled = false;
+            } catch (error) {
+                console.error('Failed to load depot stations:', error);
+                alert('Failed to load depot stations');
+            }
+        }
+
+        async function loadTrainTypes() {
+            const trainTypes = await fetchData('/master/train-types');
+            const trainTypeSelect = document.getElementById('trainType');
+            trainTypes.forEach(type => {
+                const option = document.createElement('option');
+                option.value = type.train_type_id;
+                option.textContent = type.train_type_name;
+                option.dataset.trainTypeCode = type.train_type_code; // ADD for filtering complaints
+                trainTypeSelect.appendChild(option);
+            });
+        }
+
+        async function loadComplaintSources() {
+            const sources = await fetchData('/master/complaint-sources');
+            const sourceSelect = document.getElementById('sourceOfComplaint');
+            sources.forEach(source => {
+                const option = document.createElement('option');
+                option.value = source.complaint_source_id;
+                option.textContent = source.source_name;
+                option.dataset.sourceCode = source.source_code;
+                sourceSelect.appendChild(option);
+            });
+        }
+
+        async function loadComplaintModes() {
+            const modes = await fetchData('/master/complaint-modes');
+            const modeSelect = document.getElementById('modeOfComplaint');
+            modes.forEach(mode => {
+                const option = document.createElement('option');
+                option.value = mode.complaint_mode_id;
+                option.textContent = mode.mode_name;
+                option.dataset.modeCode = mode.mode_code; // ADD data attribute for RailMadad logic
+                modeSelect.appendChild(option);
+            });
+        }
+
+        async function loadComplaintCategories() {
+            try {
+                const categories = await fetchData('/master/complaint-categories');
+                const categorySelect = document.getElementById('complaintCategory');
+                
+                // Get selected train type for filtering
+                const trainTypeSelect = document.getElementById('trainType');
+                const selectedTrainTypeOption = trainTypeSelect.options[trainTypeSelect.selectedIndex];
+                const selectedTrainTypeName = selectedTrainTypeOption?.textContent || '';
+                const isVandeBharat = selectedTrainTypeName.toLowerCase().includes('vande bharat') || 
+                                     selectedTrainTypeName.toLowerCase().includes('vb');
+                
+                categories.forEach(category => {
+                    // Filter: Only show VB complaints for VB trains
+                    const isVBComplaint = category.category_name.toLowerCase().includes('vande bharat') || 
+                                         category.category_name.toLowerCase().includes('vb ');
+                    
+                    // Skip VB complaints if not VB train
+                    if (isVBComplaint && !isVandeBharat) {
+                        return;
+                    }
+                    
+                    const option = document.createElement('option');
+                    option.value = category.complaint_category_id;
+                    option.textContent = category.category_name;
+                    categorySelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Failed to load complaint categories:', error);
+                throw error;
+            }
+        }
+
+        async function loadComplaintSubCategories(categoryId) {
+            const subCategorySelect = document.getElementById('complaintSubCategory');
+            subCategorySelect.innerHTML = '<option value="">Select sub-category</option>';
+
+            if (!categoryId) {
+                subCategorySelect.disabled = true;
+                return;
+            }
+
+            const subCategories = await fetchData(`/master/complaint-sub-categories?category_id=${categoryId}`);
+            complaintSubCategories = subCategories;
+            subCategories.forEach(subCategory => {
+                const option = document.createElement('option');
+                option.value = subCategory.complaint_sub_category_id;
+                option.textContent = subCategory.sub_category_name;
+                subCategorySelect.appendChild(option);
+            });
+            subCategorySelect.disabled = false;
+        }
+
+        async function loadUnitTypes() {
+            try {
+                const unitTypes = await fetchData('/master/unit-types');
+                const unitTypeSelect = document.getElementById('typeOfUnit');
+                unitTypes.forEach(unitType => {
+                    const option = document.createElement('option');
+                    option.value = unitType.unit_type_id;
+                    option.textContent = unitType.unit_type_name;
+                    unitTypeSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Failed to load unit types:', error);
+                throw error;
+            }
+        }
+
+        async function loadBreachTypes() {
+            try {
+                const breachTypes = await fetchData('/master/breach-types');
+                const breachSelect = document.getElementById('breach');
+                breachTypes.forEach(breach => {
+                    const option = document.createElement('option');
+                    option.value = breach.breach_id;
+                    option.textContent = `${breach.breach_name} (${breach.breach_category})`;
+                    breachSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Failed to load breach types:', error);
+                throw error;
+            }
+        }
+
+        // Train Autocomplete Functionality
+        function setupTrainAutocomplete() {
+            const trainNumberInput = document.getElementById('trainNumber');
+            const autocompleteDropdown = document.getElementById('trainAutocomplete');
+            const trainNameInput = document.getElementById('trainName');
+
+            trainNumberInput.addEventListener('input', function() {
+                const searchValue = this.value.trim();
+                
+                clearTimeout(trainSearchTimeout);
+                
+                if (searchValue.length === 0) {
+                    autocompleteDropdown.classList.remove('show');
+                    trainNameInput.value = '';
+                    return;
+                }
+                
+                trainSearchTimeout = setTimeout(() => {
+                    searchTrains(searchValue);
+                }, 300);
+            });
+
+            trainNumberInput.addEventListener('keydown', function(e) {
+                const items = autocompleteDropdown.getElementsByClassName('autocomplete-item');
+                
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    currentTrainFocus++;
+                    setActiveItem(items);
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    currentTrainFocus--;
+                    setActiveItem(items);
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (currentTrainFocus > -1 && items[currentTrainFocus]) {
+                        items[currentTrainFocus].click();
+                    }
+                } else if (e.key === 'Escape') {
+                    autocompleteDropdown.classList.remove('show');
+                    currentTrainFocus = -1;
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!trainNumberInput.contains(e.target) && !autocompleteDropdown.contains(e.target)) {
+                    autocompleteDropdown.classList.remove('show');
+                    currentTrainFocus = -1;
+                }
+            });
+        }
+
+        async function searchTrains(searchValue) {
+            const autocompleteDropdown = document.getElementById('trainAutocomplete');
+            const trainTypeId = document.getElementById('trainType').value;
+            
+            try {
+                let queryParams = `search=${encodeURIComponent(searchValue)}`;
+                if (trainTypeId) {
+                    queryParams += `&train_type_id=${trainTypeId}`;
+                }
+                
+                const trains = await fetchData(`/master/trains?${queryParams}`);
+                
+                autocompleteDropdown.innerHTML = '';
+                currentTrainFocus = -1;
+                
+                if (trains.length === 0) {
+                    autocompleteDropdown.innerHTML = '<div class="autocomplete-no-results">No trains found</div>';
+                    autocompleteDropdown.classList.add('show');
+                    return;
+                }
+                
+                trains.forEach(train => {
+                    const item = document.createElement('div');
+                    item.className = 'autocomplete-item';
+                    item.innerHTML = `
+                        <span class="train-number">${train.train_number}</span>
+                        <span class="train-name">${train.train_name}</span>
+                    `;
+                    
+                    item.addEventListener('click', function() {
+                        selectTrain(train);
+                    });
+                    
+                    autocompleteDropdown.appendChild(item);
+                });
+                
+                autocompleteDropdown.classList.add('show');
+                
+            } catch (error) {
+                console.error('Error searching trains:', error);
+                autocompleteDropdown.innerHTML = '<div class="autocomplete-no-results">Error loading trains</div>';
+                autocompleteDropdown.classList.add('show');
+            }
+        }
+
+        function selectTrain(train) {
+            document.getElementById('trainNumber').value = train.train_number;
+            document.getElementById('trainName').value = train.train_name;
+            document.getElementById('trainAutocomplete').classList.remove('show');
+            currentTrainFocus = -1;
+        }
+
+        function setActiveItem(items) {
+            if (!items) return;
+            
+            for (let i = 0; i < items.length; i++) {
+                items[i].classList.remove('active');
+            }
+            
+            if (currentTrainFocus >= items.length) currentTrainFocus = 0;
+            if (currentTrainFocus < 0) currentTrainFocus = items.length - 1;
+            
+            if (items[currentTrainFocus]) {
+                items[currentTrainFocus].classList.add('active');
+                items[currentTrainFocus].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }
+        }
+
+        // Handle mode of complaint field visibility (RailMadad is a MODE not SOURCE!)
+        function updateModeFields() {
+            const modeSelect = document.getElementById('modeOfComplaint');
+            const selectedOption = modeSelect.options[modeSelect.selectedIndex];
+            const modeCode = selectedOption?.dataset?.modeCode || '';
+            
+            const railmadadIdGroup = document.getElementById('railmadadIdGroup');
+            const railmadadIdInput = document.getElementById('railmadadId');
+            const refNoGroup = document.getElementById('refNoGroup');
+            const refNoInput = document.getElementById('refNo');
+
+            // Show RailMadad ID field when mode is RAIL_MADAD
+            if (modeCode === 'RAIL_MADAD' || modeCode === 'RAILMADAD') {
+                railmadadIdGroup.style.display = '';
+                railmadadIdInput.required = true;
+                refNoGroup.style.display = 'none';
+                refNoInput.required = false;
+                refNoInput.value = '';
+            } 
+            // Show Reference Number for web/mobile modes
+            else if (modeCode === 'WEB' || modeCode === 'MOBILE_APP' || modeCode === 'SUPERAPP' || modeCode === 'ONLINE') {
+                refNoGroup.style.display = '';
+                refNoInput.required = true;
+                railmadadIdGroup.style.display = 'none';
+                railmadadIdInput.required = false;
+                railmadadIdInput.value = '';
+            }
+            // Hide both for other modes (phone, in-person, etc.)
+            else {
+                railmadadIdGroup.style.display = 'none';
+                railmadadIdInput.required = false;
+                railmadadIdInput.value = '';
+                refNoGroup.style.display = 'none';
+                refNoInput.required = false;
+                refNoInput.value = '';
+            }
+        }
+
+        // Handle textarea character counter
+        function handleTextareaInput(e) {
+            const textarea = e.target;
+            const counterId = textarea.id + '-counter';
+            const counter = document.getElementById(counterId);
+
+            if (textarea.value.length > 1000) {
+                textarea.value = textarea.value.substring(0, 1000);
+            }
+
+            if (counter) {
+                counter.textContent = `${textarea.value.length}/1000`;
+                if (textarea.value.length > 900) {
+                    counter.classList.add('warning');
+                } else {
+                    counter.classList.remove('warning');
+                }
+            }
+
+            textarea.style.height = '34px';
+            textarea.style.height = (textarea.scrollHeight) + 'px';
+        }
+
+        // Date validation
+        function validateDates() {
+            const incidentDate = document.getElementById('incidentDate').value;
+            const registrationDate = document.getElementById('registrationDate').value;
+            
+            if (incidentDate && registrationDate) {
+                const incident = new Date(incidentDate);
+                const registration = new Date(registrationDate);
+                
+                if (registration < incident) {
+                    alert('Registration date cannot be before incident date!');
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Phone number validation
+        function validatePhoneNumber(input) {
+            const value = input.value.trim();
+            if (value && value.length !== 10) {
+                input.setCustomValidity('Phone number must be exactly 10 digits');
+                return false;
+            } else {
+                input.setCustomValidity('');
+                return true;
+            }
+        }
+
+        // Handle form submission
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            // Validate dates
+            if (!validateDates()) {
+                return;
+            }
+            
+            const form = e.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/feedback/submit`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to submit feedback');
+                }
+
+                const result = await response.json();
+                
+                // Show success message
+                const successMessage = document.getElementById('successMessage');
+                successMessage.classList.add('show');
+                setTimeout(() => {
+                    successMessage.classList.remove('show');
+                }, 2000);
+
+                // Reset form
+                form.reset();
+                document.getElementById('rlyZone').disabled = true;
+                document.getElementById('depotStation').disabled = true;
+                document.getElementById('complaintSubCategory').disabled = true;
+                updateSourceFields();
+                
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert('Failed to submit feedback. Please try again.');
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('Initializing form...');
+            console.log('API Base URL:', API_BASE_URL);
+            
+            try {
+                // Load all dropdown data
+                console.log('Loading master data...');
+                await Promise.all([
+                    loadZones(),
+                    loadTrainTypes(),
+                    loadComplaintSources(),
+                    loadComplaintModes(),
+                    loadComplaintCategories(),
+                    loadUnitTypes(),
+                    loadBreachTypes()
+                ]);
+                console.log('All master data loaded successfully!');
+            } catch (error) {
+                console.error('Failed to load initial data:', error);
+                alert(`Failed to load form data. Please ensure backend server is running at ${API_BASE_URL}\n\nError: ${error.message}`);
+            }
+
+            // Setup event listeners with cascading reset logic
+            document.getElementById('zone').addEventListener('change', function() {
+                // Reset child dropdowns
+                const rlyZoneSelect = document.getElementById('rlyZone');
+                const depotSelect = document.getElementById('depotStation');
+                
+                rlyZoneSelect.innerHTML = '<option value="">Select Railway Zone</option>';
+                rlyZoneSelect.disabled = true;
+                depotSelect.innerHTML = '<option value="">Select Depot Station</option>';
+                depotSelect.disabled = true;
+                
+                // Load new railway zones if zone is selected
+                if (this.value) {
+                    loadRlyZones(this.value);
+                }
+            });
+
+            document.getElementById('rlyZone').addEventListener('change', function() {
+                // Reset child dropdown
+                const depotSelect = document.getElementById('depotStation');
+                depotSelect.innerHTML = '<option value="">Select Depot Station</option>';
+                depotSelect.disabled = true;
+                
+                // Load new depot stations if railway zone is selected
+                if (this.value) {
+                    loadDepotStations(this.value);
+                }
+            });
+
+            document.getElementById('modeOfComplaint').addEventListener('change', updateModeFields);
+
+            document.getElementById('complaintCategory').addEventListener('change', function() {
+                // Reset child dropdown
+                const subCategorySelect = document.getElementById('complaintSubCategory');
+                subCategorySelect.innerHTML = '<option value="">Select sub-category</option>';
+                subCategorySelect.disabled = true;
+                
+                // Load new sub-categories if category is selected
+                if (this.value) {
+                    loadComplaintSubCategories(this.value);
+                }
+            });
+
+            // Add train type change listener to reload complaint categories
+            document.getElementById('trainType').addEventListener('change', function() {
+                // Reset complaint category dropdowns
+                const categorySelect = document.getElementById('complaintCategory');
+                const subCategorySelect = document.getElementById('complaintSubCategory');
+                
+                categorySelect.innerHTML = '<option value="">Select category</option>';
+                subCategorySelect.innerHTML = '<option value="">Select sub-category</option>';
+                subCategorySelect.disabled = true;
+                
+                // Reload categories (will be filtered by train type in future)
+                loadComplaintCategories();
+            });
+
+            document.getElementById('feedbackForm').addEventListener('submit', handleFormSubmit);
+
+            // Setup train autocomplete
+            setupTrainAutocomplete();
+
+            // Setup textarea character counters
+            ['complaintDescription', 'obcsRemarks', 'zoneATR', 'finalATR', 'finalRemarks'].forEach(function(id) {
+                const textarea = document.getElementById(id);
+                if (textarea) {
+                    textarea.addEventListener('input', handleTextareaInput);
+                    textarea.setAttribute('maxlength', '1000');
+                }
+            });
+
+            // Setup phone number validation
+            ['licenseeContact', 'obcsContact', 'passengerContact'].forEach(function(id) {
+                const input = document.getElementById(id);
+                if (input) {
+                    input.addEventListener('blur', function() {
+                        validatePhoneNumber(this);
+                    });
+                    input.addEventListener('input', function() {
+                        // Remove non-numeric characters
+                        this.value = this.value.replace(/\D/g, '');
+                        if (this.value.length <= 10) {
+                            validatePhoneNumber(this);
+                        }
+                    });
+                }
+            });
+
+            // Setup date validation
+            document.getElementById('incidentDate').addEventListener('change', validateDates);
+            document.getElementById('registrationDate').addEventListener('change', validateDates);
+
+            // Set default date to today
+            document.getElementById('complaintDate').valueAsDate = new Date();
+            document.getElementById('registrationDate').valueAsDate = new Date();
+        });
+    </script>
+</body>
+</html>
