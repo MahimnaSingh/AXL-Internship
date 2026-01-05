@@ -47,10 +47,6 @@ async function executeQuery(query, params = []) {
     }
 }
 
-// ============================================
-// MASTER DATA APIs - For Dropdowns
-// ============================================
-
 // Get all IRCTC zones
 app.get('/api/master/zones', async (req, res) => {
     try {
@@ -356,9 +352,6 @@ app.get('/api/master/breach-status', async (req, res) => {
     }
 });
 
-// ============================================
-// FEEDBACK/COMPLAINT SUBMISSION API
-// ============================================
 
 // Create a new complaint
 app.post('/api/complaints', async (req, res) => {
@@ -637,25 +630,7 @@ app.get('/api', (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-    console.log('╔════════════════════════════════════════════════════════════════╗');
-    console.log('║                                                                ║');
-    console.log('║   🚂 IRCTC Feedback API - Node.js Backend                     ║');
-    console.log('║                                                                ║');
-    console.log('╚════════════════════════════════════════════════════════════════╝');
-    console.log('');
-    console.log(`✓ Server running on http://localhost:${PORT}`);
-    console.log(`✓ Environment: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`✓ Database: ${dbConfig.database}@${dbConfig.host}`);
-    console.log('');
-    console.log('Available endpoints:');
-    console.log(`  - GET  http://localhost:${PORT}/health`);
-    console.log(`  - GET  http://localhost:${PORT}/api/master/*`);
-    console.log(`  - POST http://localhost:${PORT}/api/complaints`);
-    console.log(`  - GET  http://localhost:${PORT}/api/complaints`);
-    console.log(`  - POST http://localhost:${PORT}/api/feedback/submit`);
-    console.log('');
-    console.log('Press Ctrl+C to stop the server');
-    console.log('');
+    console.log('Server Started on port', PORT);
 });
 
 // Graceful shutdown
